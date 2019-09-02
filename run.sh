@@ -42,6 +42,8 @@ for n in $(seq $nj); do
 done
 utils/split_scp.pl ${data}/feats.scp $split_feats_scps || exit 1;
 
+rm -i ${data}/feats_spec.scp
+
 for n in $(seq $nj); do
 {
    {
@@ -55,6 +57,8 @@ for n in $(seq $nj); do
 		--spec_time_mask_bound_ratio ${time_mask_bound_ratio} \
 		--spec_replace_with_zero ${replace_with_zero} \
 		|| exit 1;
+
+   cat ${data}/splits${nj}/${n}/feats_spec.scp >> ${data}/feats_spec.scp
 	}&
 }
 done
