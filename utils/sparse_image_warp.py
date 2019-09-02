@@ -389,11 +389,12 @@ def time_warp(spec, W=5):
     """
     if W == 0:
         return spec
-    spec = spec.unsqueeze(0)
-    num_mel_channels = spec.shape[1]
-    spec_len = spec.shape[2]
+    
+    num_mel_channels = spec.shape[0]
+    spec_len = spec.shape[1]
     if spec_len < 2*W:
         return spec
+    spec = spec.unsqueeze(0)
     device = spec.device
 
     y = num_mel_channels / 2.0
@@ -416,11 +417,8 @@ def freq_mask(spec, F=30, num_masks=1, pad_value=0):
     :param int num_masks: number of masks
     :param bool pad_value: value for padding
     """
-    print (spec.shape)
     cloned = spec.unsqueeze(0).clone()
-    num_mel_channels = spec.shape[0]
-    print (cloned.shape)
-    print (num_mel_channels)
+    num_mel_channels = cloned.shape[0]
     for i in range(0, num_masks):
         f = random.randrange(0, F)
         f_zero = random.randrange(0, num_mel_channels - f)
