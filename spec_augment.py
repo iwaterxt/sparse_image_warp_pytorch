@@ -37,7 +37,7 @@ def main():
         for key,mat in kaldi_io.read_mat_scp(featscp):
             spec_feat = specaug(torch.from_numpy(mat))
 
-            kaldi_io.write_mat(w, spec_feat, key=key)
+            kaldi_io.write_mat(w, spec_feat.cpu().detach().numpy(), key=key)
             pbar.update(1)
 
 if __name__ == '__main__':
