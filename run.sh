@@ -19,12 +19,12 @@ if [ $# != 1 ]; then
    echo " e.g.: $0 data/train"
    echo "main options (for others, see top of script file)"
    echo "  --time-warp <int>  #time warp parameter"
-   echo "  --freq_mask_width <int >     # frequence mask parameter"
-   echo "  --time_mask_width <int> # time mask parameter"
-   echo "  --num_freq_masks <int> # number of frequence masks"
-   echo "  --num_time_masks  <int>  # number of time masks"
-   echo "  --time_mask_bound_ratio <float>  # the up bound of time mask width"
-   echo "  --replace_with_zero <bool> # replace the mask region with zero or spec mean"
+   echo "  --freq-mask-width <int >     # frequence mask parameter"
+   echo "  --time-mask-width <int> # time mask parameter"
+   echo "  --num-freq-masks <int> # number of frequence masks"
+   echo "  --num-time-masks  <int>  # number of time masks"
+   echo "  --time-mask-bound-ratio <float>  # the up bound of time mask width"
+   echo "  --replace-with-zero <bool> # replace the mask region with zero or spec mean"
    exit 1;
 fi
 
