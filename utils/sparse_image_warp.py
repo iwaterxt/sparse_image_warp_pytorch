@@ -376,7 +376,7 @@ def specaug(spec, W=80, F=27, T=70, num_freq_masks=2, num_time_masks=2, p=0.2, r
     else:
         pad_value = spec.mean()
     return time_mask(
-        freq_mask(spec.transpose(0, 1),
+        freq_mask(time_warp(spec.transpose(0, 1), W=W),
                   F=F, num_masks=num_freq_masks, pad_value=pad_value),
         T=T, num_masks=num_time_masks, p=p, pad_value=pad_value).transpose(0, 1)
 
@@ -392,13 +392,12 @@ def time_warp(spec, W=5):
     spec = spec.unsqueeze(0)
     num_rows = spec.shape[1]
     spec_len = spec.shape[2]
-    if W >= spec_len:
-        return spec
+
     device = spec.device
 
     y = num_rows / 2.0
 
-    point_to_warp = random.randrange(W, spec_len)
+    point_to_warp = random.randrange(W, spec_len-W)
 
     # Uniform distribution from (0,W) with chance to be up to W negative
     dist_to_warp = random.randrange(-W, W)
@@ -417,7 +416,7 @@ def freq_mask(spec, F=30, num_masks=1, pad_value=0):
     :param bool pad_value: value for padding
     """
     cloned = spec.unsqueeze(0).clone()
-    num_mel_channels = cloned.shape[2]
+    num_mel_channels = cloned.shape[1]
     for i in range(0, num_masks):
         f = random.randrange(0, F)
         f_zero = random.randrange(0, num_mel_channels - f)
