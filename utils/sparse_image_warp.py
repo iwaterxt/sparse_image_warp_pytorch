@@ -355,7 +355,7 @@ def interpolate_bilinear(grid,
     return interp
 
 
-def specaug(spec, W=80, F=27, T=70, num_freq_masks=2, num_time_masks=2, p=0.2, replace_with_zero=False):
+def specaug(spec, W=80, F=13, T=70, num_freq_masks=2, num_time_masks=2, p=0.2, replace_with_zero=False):
     """SpecAugment
 
     Reference: SpecAugment: A Simple Data Augmentation Method for Automatic Speech Recognition
@@ -390,20 +390,20 @@ def time_warp(spec, W=5):
     if W == 0:
         return spec
     spec = spec.unsqueeze(0)
-    num_rows = spec.shape[1]
+    num_mel_channels = spec.shape[1]
     spec_len = spec.shape[2]
     if spec_len < 2*W:
         return spec
     device = spec.device
 
-    y = num_rows / 2.0
+    y = num_mel_channels / 2.0
 
     point_to_warp = random.randrange(W, spec_len-W)
 
     # Uniform distribution from (0,W) with chance to be up to W negative
     dist_to_warp = random.randrange(-W, W)
-    src_pts, dest_pts = (torch.tensor([[[y, point_to_warp], [0, 0], [0, spec_len - 1], [num_rows - 1, 0], [num_rows - 1, spec_len - 1]]], device=device),
-                         torch.tensor([[[y, point_to_warp + dist_to_warp], [0, 0], [0, spec_len - 1], [num_rows - 1, 0], [num_rows - 1, spec_len - 1]]], device=device))
+    src_pts, dest_pts = (torch.tensor([[[y, point_to_warp], [0, 0], [0, spec_len - 1], [num_mel_channels - 1, 0], [num_mel_channels - 1, spec_len - 1]]], device=device),
+                         torch.tensor([[[y, point_to_warp + dist_to_warp], [0, 0], [0, spec_len - 1], [num_mel_channels - 1, 0], [num_mel_channels - 1, spec_len - 1]]], device=device))
     warped_spectro, dense_flows = sparse_image_warp(spec, src_pts, dest_pts)
     return warped_spectro.squeeze(3).squeeze(0)
 
@@ -441,12 +441,12 @@ def time_mask(spec, T=40, num_masks=1, p=0.2, pad_value=0):
     :param bool pad_value: value for padding
     """
     cloned = spec.unsqueeze(0).clone()
-    len_spectro = cloned.shape[2]
-    T = min(T, int(len_spectro * p / num_masks))
+    spec_len = cloned.shape[2]
+    T = min(T, int(spec_len * p / num_masks))
 
     for i in range(0, num_masks):
         t = random.randrange(0, T)
-        t_zero = random.randrange(0, len_spectro - t)
+        t_zero = random.randrange(0, spec_len - t)
 
         # avoids randrange error if values are equal and range is empty
         if (t_zero == t_zero + t):
