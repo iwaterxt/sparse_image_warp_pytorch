@@ -30,6 +30,8 @@ def parse():
     parser.add_argument('--spec_time_mask_bound_ratio', type=float, default=0.2,
                         help='an upper bound on the time mask so that a time mask cannot \
                         be wider than p times the number of time steps')
+    parser.add_argument('--spec_replace_with_zero', type=strtobool, default=False, 
+                        help='replace mask region with zero or spec mean')
     
     args = parser.parse_args()
     return args
