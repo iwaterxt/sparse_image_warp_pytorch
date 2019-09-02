@@ -29,7 +29,6 @@ def main():
 
     featdir = args.spec_feat_dir[0]
     featscp = os.path.join(featdir, 'feats.scp')
-    featark = os.path.join(featdir, 'feats.ark')
     with open(featscp) as f:
         lines = f.readlines()
         pbar = tqdm(total=len(lines))
@@ -38,6 +37,7 @@ def main():
     with ReadHelper('scp:'+featscp) as reader:
     	for key,mat in reader:
         	spec_feat = specaug(torch.from_numpy(mat))
+            print (spec_feat.shape)
         	feats_dict[key] = spec_feat.cpu().detach().numpy()
         	pbar.update(1)
 
