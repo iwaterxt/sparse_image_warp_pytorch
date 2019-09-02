@@ -56,5 +56,5 @@ for n in $(seq $nj); do
 		--spec_replace_with_zero ${replace_with_zero} \
 		|| exit 1;
 }&
-
+wait
 done

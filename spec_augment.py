@@ -25,7 +25,7 @@ def main():
     spec_time_mask_bound_ratio = args.spec_time_mask_bound_ratio
     spec_replace_with_zero = args.spec_replace_with_zero
 
-    featdir = args.spec_feat_dir
+    featdir = args.spec_feat_dir[0]
     featscp = os.path.join(featdir, 'feats.scp')
     with open(featscp) as f:
         lines = f.readlines()
@@ -42,4 +42,4 @@ def main():
             pbar.update(1)
 
 if __name__ == '__main__':
-    main()
+	main()
