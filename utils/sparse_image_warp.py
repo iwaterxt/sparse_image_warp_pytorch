@@ -417,7 +417,7 @@ def freq_mask(spec, F=30, num_masks=1, pad_value=0):
     :param bool pad_value: value for padding
     """
     cloned = spec.unsqueeze(0).clone()
-    num_mel_channels = cloned.shape[1]
+    num_mel_channels = spec.shape[0]
     print (cloned.shape)
     print (num_mel_channels)
     for i in range(0, num_masks):
