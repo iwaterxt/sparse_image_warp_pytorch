@@ -37,8 +37,7 @@ def main():
     with ReadHelper('scp:'+featscp) as reader:
     	for key,mat in reader:
         	spec_feat = specaug(torch.from_numpy(mat))
-        	feats_dict[key] = spec_feat.cpu().detach().numpy()
-        	print (feats_dict[key].size())
+        	feats_dict[key] = spec_feat.numpy()
         	pbar.update(1)
 
     with WriteHelper('ark,scp:'+featdir+'/feats_spec.ark,'+featdir+'/feats_spec.scp') as writer:
