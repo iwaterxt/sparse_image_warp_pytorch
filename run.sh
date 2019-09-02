@@ -42,7 +42,7 @@ for n in $(seq $nj); do
 done
 utils/split_scp.pl ${data}/feats.scp $split_feats_scps || exit 1;
 
-rm -i ${data}/feats_spec.scp
+rm -f ${data}/feats_spec.scp
 
 for n in $(seq $nj); do
 {
