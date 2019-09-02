@@ -36,7 +36,8 @@ def main():
     feats_dict = {}
     with ReadHelper('scp:'+featscp) as reader:
     	for key,mat in reader:
-        	spec_feat = specaug(torch.from_numpy(mat))
+        	spec_feat = specaug(torch.from_numpy(mat), spec_time_warp, spec_freq_mask_width, spec_time_mask_width, \
+        						spec_num_freq_masks, spec_num_time_masks, spec_time_mask_bound_ratio, spec_replace_with_zero)
         	feats_dict[key] = spec_feat.numpy()
         	pbar.update(1)
 
