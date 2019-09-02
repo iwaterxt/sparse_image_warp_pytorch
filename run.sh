@@ -44,7 +44,7 @@ utils/split_scp.pl ${data}/feats.scp $split_feats_scps || exit 1;
 
 for n in $(seq $nj); do
 {
-
+	{
 	python spec_augment.py  \
 		--spec_feat_dir ${data}/splits${nj}/${n} \
 		--spec_time_warp ${time_warp} \
@@ -55,6 +55,7 @@ for n in $(seq $nj); do
 		--spec_time_mask_bound_ratio ${time_mask_bound_ratio} \
 		--spec_replace_with_zero ${replace_with_zero} \
 		|| exit 1;
-}&
+	}&
+}
 wait
 done
