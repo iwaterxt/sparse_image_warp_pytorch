@@ -398,7 +398,7 @@ def time_warp(spec, W=5):
 
     y = num_rows / 2.0
 
-    point_to_warp = random.randrange(W, spec_len - W)
+    point_to_warp = random.randrange(W, spec_len)
 
     # Uniform distribution from (0,W) with chance to be up to W negative
     dist_to_warp = random.randrange(-W, W)

@@ -37,11 +37,10 @@ def main():
     for key,mat in kaldi_io.read_mat_scp(featscp):
         spec_feat = specaug(torch.from_numpy(mat))
         feats_dict[key] = spec_feat.cpu().detach().numpy()
-
+        pbar.update(1)
     with kaldi_io.open_or_fd(ark_scp_output, 'wb') as w:
-    	for key,mat in feats_dict.iteritems():
+    	for key,mat in feats_dict.items():
         	kaldi_io.write_mat(w, mat, key=key)
-            pbar.update(1)
 
 if __name__ == '__main__':
 	main()
