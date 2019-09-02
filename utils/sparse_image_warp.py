@@ -376,7 +376,7 @@ def specaug(spec, W=80, F=27, T=70, num_freq_masks=2, num_time_masks=2, p=0.2, r
     else:
         pad_value = spec.mean()
     return time_mask(
-        freq_mask(time_warp(spec.transpose(0, 1), W=W),
+        freq_mask(spec.transpose(0, 1),
                   F=F, num_masks=num_freq_masks, pad_value=pad_value),
         T=T, num_masks=num_time_masks, p=p, pad_value=pad_value).transpose(0, 1)
 
