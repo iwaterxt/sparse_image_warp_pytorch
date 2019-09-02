@@ -416,9 +416,10 @@ def freq_mask(spec, F=30, num_masks=1, pad_value=0):
     :param int num_masks: number of masks
     :param bool pad_value: value for padding
     """
+    print (spec.shape)
     cloned = spec.unsqueeze(0).clone()
-    num_mel_channels = cloned.shape[1]
-    print (cloned.shape)
+    num_mel_channels = cloned.shape[2]
+    #print (cloned.shape)
     for i in range(0, num_masks):
         f = random.randrange(0, F)
         f_zero = random.randrange(0, num_mel_channels - f)
