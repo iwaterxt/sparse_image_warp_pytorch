@@ -8,9 +8,11 @@ from __future__ import print_function
 from utils.sparse_image_warp import specaug
 from utils.args_asr import parse
 from tqdm import tqdm
+from kaldiio import WriteHelper
+from kaldiio import ReadHelper
 import torch
 import argparse
-import kaldi_io
+
 import os
 
 def main():
@@ -33,14 +35,15 @@ def main():
         pbar = tqdm(total=len(lines))
 
     feats_dict = {}
-    for key,mat in kaldi_io.read_mat_scp(featscp):
-        spec_feat = specaug(torch.from_numpy(mat))
-        feats_dict[key] = spec_feat.cpu().detach().numpy()
-        pbar.update(1)
-
-    with open(featark, 'wb') as w:
+    with ReadHelper('scp:'+featscp) as reader:
+    	for key,mat in reader:
+        	spec_feat = specaug(torch.from_numpy(mat))
+        	feats_dict[key] = spec_feat.cpu().detach().numpy()
+        	pbar.update(1)
+        	
+    with WriteHelper('ark,scp:'+featdir+'feats_spec.ark,'+featdir+'feats_spec.scp') as writer:
     	for key,mat in feats_dict.items():
-        	kaldi_io.write_mat(w, mat, key=key)
+        	writer(key, mat)
 
 if __name__ == '__main__':
 	main()
