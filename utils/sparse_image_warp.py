@@ -392,6 +392,8 @@ def time_warp(spec, W=5):
     spec = spec.unsqueeze(0)
     num_rows = spec.shape[1]
     spec_len = spec.shape[2]
+    if W >= spec_len:
+        return spec
     device = spec.device
 
     y = num_rows / 2.0
