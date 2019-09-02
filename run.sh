@@ -44,8 +44,8 @@ utils/split_scp.pl ${data}/feats.scp $split_feats_scps || exit 1;
 
 for n in $(seq $nj); do
 {
-	{
-	python spec_augment.py  \
+   {
+	 python spec_augment.py  \
 		--spec_feat_dir ${data}/splits${nj}/${n} \
 		--spec_time_warp ${time_warp} \
 		--spec_freq_mask_width ${freq_mask_width} \
@@ -57,5 +57,5 @@ for n in $(seq $nj); do
 		|| exit 1;
 	}&
 }
-wait
 done
+wait
