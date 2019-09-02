@@ -40,8 +40,8 @@ def main():
         	spec_feat = specaug(torch.from_numpy(mat))
         	feats_dict[key] = spec_feat.cpu().detach().numpy()
         	pbar.update(1)
-        	
-    with WriteHelper('ark,scp:'+featdir+'feats_spec.ark,'+featdir+'feats_spec.scp') as writer:
+
+    with WriteHelper('ark,scp:'+featdir+'/feats_spec.ark,'+featdir+'/feats_spec.scp') as writer:
     	for key,mat in feats_dict.items():
         	writer(key, mat)
 
