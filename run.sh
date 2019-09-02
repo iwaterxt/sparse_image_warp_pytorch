@@ -12,6 +12,7 @@ replace_with_zero=False
 #end config
 
 . utils/parse_options.sh
+. ./path.sh
 
 if [ $# != 1 ]; then
    echo "Usage: $0 <data> "
