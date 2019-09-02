@@ -35,9 +35,7 @@ def main():
     ark_scp_output='ark:| copy-feats --compress=true ark:- ark,scp:' + ark_scp_output
     with kaldi_io.open_or_fd(ark_scp_output, 'wb') as w:
         for key,mat in kaldi_io.read_mat_scp(featscp):
-            spec_feat = specaug(torch.from_numpy(mat), spec_time_warp, spec_freq_mask_width, spec_time_mask_width, \
-    							  	  spec_num_freq_masks, spec_num_time_masks, \
-    							  	  spec_time_mask_bound_ratio, spec_replace_with_zero)
+            spec_feat = specaug(torch.from_numpy(mat))
 
             kaldi_io.write_mat(w, spec_feat, key=key)
             pbar.update(1)
