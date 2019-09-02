@@ -33,11 +33,14 @@ def main():
 
     ark_scp_output=featdir+'/'+'feats_spec.ark'+','+featdir+'/'+'feats_spec.scp'
     ark_scp_output='ark:| copy-feats --compress=true ark:- ark,scp:' + ark_scp_output
-    with kaldi_io.open_or_fd(ark_scp_output, 'wb') as w:
-        for key,mat in kaldi_io.read_mat_scp(featscp):
-            spec_feat = specaug(torch.from_numpy(mat))
+    feats_dict = {}
+    for key,mat in kaldi_io.read_mat_scp(featscp):
+        spec_feat = specaug(torch.from_numpy(mat))
+        feats_dict[key] = spec_feat.cpu().detach().numpy()
 
-            kaldi_io.write_mat(w, spec_feat.cpu().detach().numpy(), key=key)
+    with kaldi_io.open_or_fd(ark_scp_output, 'wb') as w:
+    	for key,mat in feats_dict.iteritems():
+        	kaldi_io.write_mat(w, mat, key=key)
             pbar.update(1)
 
 if __name__ == '__main__':
