@@ -392,7 +392,7 @@ def time_warp(spec, W=5):
     
     num_mel_channels = spec.shape[0]
     spec_len = spec.shape[1]
-    if spec_len < 2*W:
+    if spec_len <= 2*W:
         return spec
     spec = spec.unsqueeze(0)
     device = spec.device
